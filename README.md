@@ -1,0 +1,2 @@
+# NewsClasifier
+Project for IAA

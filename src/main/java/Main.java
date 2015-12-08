@@ -149,7 +149,7 @@ public class Main {
                 map.put(line, line);
             }
         }catch (Exception e){
-
+            System.out.println(e.getMessage());
         }
 
         return map;

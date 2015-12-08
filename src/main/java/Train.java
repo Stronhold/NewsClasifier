@@ -18,7 +18,7 @@ import java.util.*;
 /**
  * Created by Sergio on 02/12/2015.
  */
-public class Main {
+public class Train {
 
     public static void main(String [] args){
 
@@ -111,6 +111,7 @@ public class Main {
                 v[i] = t._2;
             }
             LabeledPoint l = new LabeledPoint(number, Vectors.dense(v));
+            System.out.println(number + " " + key);
             number++;
             aLabeledPoint.add(l);
         }

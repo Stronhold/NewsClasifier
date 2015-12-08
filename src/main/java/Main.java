@@ -12,10 +12,7 @@ import org.apache.spark.mllib.regression.LabeledPoint;
 import scala.Tuple2;
 import utils.Reducer;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 /**
@@ -31,6 +28,11 @@ public class Main {
             FileUtils.deleteDirectory(new File(pathResults));
         } catch (IOException e) {
             System.out.println(e.getMessage());
+        }
+        String pathToWords = "words.txt";
+        File file = new File(pathToWords);
+        if(file.exists()){
+            file.delete();
         }
 
         //Path donde estaran las categorias
@@ -92,7 +94,10 @@ public class Main {
             }
         }
 
-        //Añadimos las restantes palabras a cada categoría y hacemos su frecuencia
+        //Crea archivo con las palabras mas usadas
+        createFile(palabras, pathToWords);
+
+        //Añadimos las restantes palabras a cada categoria y hacemos su frecuencia
         diccionarioFinal = Reducer.getDictionaryWithLastWords(diccionarioPalabrasTotales, diccionarioFinal, palabras);
 
         //Creación del modelo
@@ -114,6 +119,22 @@ public class Main {
         //Guardamos el modelo
         model.save(jsc.sc(), pathResults);
         jsc.stop();
+    }
+
+    private static void createFile(List<String> palabras, String pathToWords) {
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(pathToWords, "UTF-8");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        for(String temp : palabras){
+            writer.println(temp);
+        }
+        writer.close();
     }
 
     /**

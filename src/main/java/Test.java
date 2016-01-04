@@ -10,7 +10,10 @@ import scala.Tuple2;
 import utils.Reducer;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Created by Sergio on 08/12/2015.
@@ -21,9 +24,29 @@ public class Test {
         //Path de resultados
         String pathResults = "results";
 
-
+        String pathToCategories = "values.txt";
         String pathToWords = "words.txt";
         File file = new File(pathToWords);
+
+        HashMap<Double, String> categoriesDict = new HashMap<>();
+        FileInputStream fis = null;
+        try {
+            fis = new FileInputStream(pathToCategories);
+            //Construct BufferedReader from InputStreamReader
+            BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+
+            String line = null;
+            while ((line = br.readLine()) != null) {
+                String[] words = line.split(" ");
+                categoriesDict.put(Double.valueOf(words[0]), words[1]);
+            }
+            br.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         //Path donde estaran las categorias
         String pathCategories = "src/main/resources/categoriestest/";
@@ -98,21 +121,8 @@ public class Test {
             org.apache.spark.mllib.linalg.Vector vector = Vectors.dense(v);
             /**/
             double d = model.predict(vector);
-            if(d == 1.0){
-                System.out.println("Política");
-            }
-            else if(d == 2.0){
-                System.out.println("Tecnología");
-            }
-            else if(d == 3.0){
-                System.out.println("Juegos");
-            }
-            else if (d == 4.0){
-                System.out.println("Economía");
-            }
-            else{
-                System.out.println("Deportes");
-            }
+            System.out.println(categoriesDict.get(d));
+
 
         }
 

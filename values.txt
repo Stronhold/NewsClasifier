@@ -1,0 +1,5 @@
+1.0 politics
+2.0 Technology
+3.0 games
+4.0 economy
+5.0 sport

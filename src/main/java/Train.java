@@ -1,4 +1,5 @@
 
+import org.apache.commons.collections.ArrayStack;
 import org.apache.commons.io.FileUtils;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
@@ -103,6 +104,8 @@ public class Train {
         //Creación del modelo
         ArrayList<LabeledPoint> aLabeledPoint = new ArrayList<>();
         double number = 1.0;
+        ArrayList<String> values = new ArrayList<>();
+
         for(String key : diccionarioFinal.keySet()){
             ArrayList<Tuple2<String, Double>> aFreq = diccionarioFinal.get(key);
             double[] v = new double[aFreq.size()];
@@ -111,7 +114,7 @@ public class Train {
                 v[i] = t._2;
             }
             LabeledPoint l = new LabeledPoint(number, Vectors.dense(v));
-            System.out.println(number + " " + key);
+            values.add(number + " " + key);
             number++;
             aLabeledPoint.add(l);
         }
@@ -119,6 +122,7 @@ public class Train {
         NaiveBayesModel model = NaiveBayes.train(labels.rdd());
         //Guardamos el modelo
         model.save(jsc.sc(), pathResults);
+        createFile(values, "values.txt");
         jsc.stop();
     }
 

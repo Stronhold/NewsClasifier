@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="hadoop-common-2.2.0-bin-master">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/hadoop-common-2.2.0-bin-master.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

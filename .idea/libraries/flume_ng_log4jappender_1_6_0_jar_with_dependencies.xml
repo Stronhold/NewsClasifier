@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="flume-ng-log4jappender-1.6.0-jar-with-dependencies">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/apache-flume-1.6.0-bin/tools/flume-ng-log4jappender-1.6.0-jar-with-dependencies.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

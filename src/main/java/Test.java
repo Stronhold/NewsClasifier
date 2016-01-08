@@ -29,6 +29,8 @@ public class Test {
         File file = new File(pathToWords);
 
         HashMap<Double, String> categoriesDict = new HashMap<>();
+        HashMap<String, String> resultado = new HashMap<>();
+
         FileInputStream fis = null;
         try {
             fis = new FileInputStream(pathToCategories);
@@ -91,7 +93,6 @@ public class Test {
                 }
             });
             JavaPairRDD<String, Double> wordCount = Reducer.parseWords(words, dictionary);
-            //TODO el count se hace mal, se tienen que coger las palabras no "", pero bueno, por ahora vale...
             List<Tuple2<String, Double>> total = wordCount.collect();
             List<Tuple2<String, Double>> elementsRemoved = new ArrayList<>();
             for(Tuple2<String, Double> t : total){
@@ -122,11 +123,17 @@ public class Test {
             /**/
             double d = model.predict(vector);
             System.out.println(categoriesDict.get(d));
-
-
+            resultado.put(f.getName(), categoriesDict.get(d));
         }
-
         jsc.stop();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        for (String key: resultado.keySet()) {
+            System.out.println(key + " - " + resultado.get(key));
+        }
     }
 
     private static void createFile(List<String> palabras, String pathToWords) {
